@@ -1,0 +1,26 @@
+name: CI
+on:
+  push:
+    branches:
+    - master
+    tags-ignore:
+    - "*.*.*"
+  pull_request:
+    branches:
+    - master
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        go: ["1.13", "1.14"]
+        os: [ubuntu-latest, macOS-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/setup-go@master
+      with:
+        go-version: ${{ matrix.go }}
+    - uses: actions/checkout@master
+    - name: Go Test
+      run: |
+        go test -v ./...
