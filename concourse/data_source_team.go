@@ -79,7 +79,10 @@ func dataSourceTeamRead(ctx context.Context, d *schema.ResourceData, m interface
 		if team.Name == teamName {
 			exist = true
 			d.SetId(strconv.Itoa(team.ID))
-			setTeamDataSource(team, d)
+			t := flattenTeamAuthData(team.Auth)
+			for k, v := range t {
+				d.Set(k, v)
+			}
 		}
 	}
 	if !exist {
@@ -92,59 +95,21 @@ func dataSourceTeamRead(ctx context.Context, d *schema.ResourceData, m interface
 	return diags
 }
 
-func setTeamDataSource(team atc.Team, d *schema.ResourceData) diag.Diagnostics {
-	var diags diag.Diagnostics
-	auth := team.Auth
-	if auth == nil {
-		diags = append(diags, diag.Diagnostic{
-			Severity: diag.Error,
-			Summary:  fmt.Sprintf("team: %s does not have auth info", team.Name),
-		})
-		return diags
-	}
-	owner, ok := auth["owner"]
-	if ok {
-		groups, exists := owner["groups"]
-		if exists {
-			d.Set("owner_groups", groups)
+func flattenTeamAuthData(auth atc.TeamAuth) map[string][]string {
+	m := make(map[string][]string)
+	for k, v := range auth {
+		// e.g. k="owner", k="pipeline-operator", etc.
+		if k == "pipeline-operator" {
+			k = "pipeline_operator"
 		}
-		users, exists := owner["users"]
-		if exists {
-			d.Set("owner_users", users)
+		groups, ok := v["groups"]
+		if ok {
+			m[fmt.Sprintf("%s_groups", k)] = groups
+		}
+		users, ok := v["users"]
+		if ok {
+			m[fmt.Sprintf("%s_users", k)] = users
 		}
 	}
-	member, ok := auth["member"]
-	if ok {
-		groups, exists := member["groups"]
-		if exists {
-			d.Set("member_groups", groups)
-		}
-		users, exists := member["users"]
-		if exists {
-			d.Set("member_users", users)
-		}
-	}
-	viewer, ok := auth["viewer"]
-	if ok {
-		groups, exists := viewer["groups"]
-		if exists {
-			d.Set("viewer_groups", groups)
-		}
-		users, exists := viewer["users"]
-		if exists {
-			d.Set("viewer_users", users)
-		}
-	}
-	pipelineOperator, ok := auth["pipeline-operator"]
-	if ok {
-		groups, exists := pipelineOperator["groups"]
-		if exists {
-			d.Set("pipeline_operator_groups", groups)
-		}
-		users, exists := pipelineOperator["users"]
-		if exists {
-			d.Set("pipeline_operator_users", users)
-		}
-	}
-	return diags
+	return m
 }
