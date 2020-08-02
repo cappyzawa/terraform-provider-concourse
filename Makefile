@@ -8,10 +8,8 @@ build:
 	go build -o ${BINARY}
 
 release:
-	GOOS=darwin GOARCH=amd64 go build -o ./bin/${BINARY}_${VERSION}_darwin_amd64
-	GOOS=linux GOARCH=386 go build -o ./bin/${BINARY}_${VERSION}_linux_386
-	GOOS=linux GOARCH=amd64 go build -o ./bin/${BINARY}_${VERSION}_linux_amd64
-	GOOS=linux GOARCH=arm go build -o ./bin/${BINARY}_${VERSION}_linux_arm
+	GOOS=darwin GOARCH=amd64 go build -o ./bin/${BINARY}_darwin_amd64
+	GOOS=linux GOARCH=amd64 go build -o ./bin/${BINARY}_linux_amd64
 	chmod +x ./bin/*
 
 install: build

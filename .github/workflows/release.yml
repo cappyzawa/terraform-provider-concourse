@@ -1,7 +1,7 @@
 on:
   push:
     tags:
-    - '*.*.*'
+    - 'v*.*.*'
 
 name: Upload Release Asset
 
@@ -9,10 +9,6 @@ jobs:
   build:
     name: Upload Release Asset
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        suffix: ["darwin_amd64", "linux_386", "linux_amd64", "linux_arm"]
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -29,12 +25,21 @@ jobs:
         release_name: Release ${{ github.ref }}
         draft: false
         prerelease: false
-    - name: Upload Release Asset
-      id: upload-release-asset
+    - name: Upload Release Asset for Darwin
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./bin/terraform-provider-concourse_${{ github.ref }}_${{ matrix.suffix }}
-        asset_name: terraform-provider-concourse_${{ github.ref }}_${{ matrix.suffix }}
+        asset_path: ./bin/terraform-provider-concourse_darwin_amd64
+        asset_name: terraform-provider-concourse_darwin_amd64
+        asset_content_type: application/octet-stream
+    - name: Upload Release Asset for Linux
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./bin/terraform-provider-concourse_linux_amd64
+        asset_name: terraform-provider-concourse_linux_amd64
+        asset_content_type: application/octet-stream
