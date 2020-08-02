@@ -30,7 +30,9 @@ func Provider() *schema.Provider {
 				Sensitive: true,
 			},
 		},
-		ResourcesMap: map[string]*schema.Resource{},
+		ResourcesMap: map[string]*schema.Resource{
+			"concourse_team": resourceTeam(),
+		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"concourse_team": dataSourceTeam(),
 		},
@@ -49,7 +51,6 @@ func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Unable to get token",
-			Detail:   "Unable to get oauth2 token",
 		})
 		return nil, diags
 	}
