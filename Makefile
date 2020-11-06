@@ -1,6 +1,10 @@
 TEST?=$$(go list ./... | grep -v 'vendor')
-BINARY=terraform-provider-concourse
+HOSTNAME=local-registry
+NAMESPACE=cappyzawa
+NAME=concourse
+BINARY=terraform-provider-${NAME}
 VERSION=0.0.1
+OS_ARCH=darwin_amd64
 
 default: install
 
@@ -13,7 +17,8 @@ release:
 	chmod +x ./bin/*
 
 install: build
-	mv ${BINARY} ~/.terraform.d/plugins
+	mkdir -p ~/.terraform.d/plugins/${HOSTNAME}/${NAMESPACE}/${NAME}/${VERSION}/${OS_ARCH}
+	mv ${BINARY} ~/.terraform.d/plugins/${HOSTNAME}/${NAMESPACE}/${NAME}/${VERSION}/${OS_ARCH}
 
 test:
 	go test -i $(TEST) || exit 1
