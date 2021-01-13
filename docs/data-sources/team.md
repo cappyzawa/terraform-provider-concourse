@@ -1,28 +1,35 @@
-# concourse_team
+---
+page_title: "concourse_team Data Source - terraform-provider-concourse"
+subcategory: ""
+description: |-
+  
+---
 
-## Example Usage
+# Data Source `concourse_team`
 
-```hcl
-data "concourse_team" "main" {
-  name = "main"
-}
-```
 
-## Argument References
 
-The following arguments are supported:
 
-* `name` - (Required) The name of the team.
 
-## Attributes References
+## Schema
 
-* `id` - The ID of the team
-* `name` - The name of the team.
-* `owner_groups` - The owner group list.
-* `owner_users` - The owner user list.
-* `member_groups` - The member group list.
-* `member_users` - The member user list.
-* `viewer_groups` - The viewer group list.
-* `viewer_users` - The viewer user list.
-* `pipeline_operator_groups` - The pipeline operator group list.
-* `pipeline_operator_users` - The pipeline operator user list.
+### Required
+
+- **name** (String)
+
+### Optional
+
+- **id** (String) The ID of this resource.
+
+### Read-only
+
+- **member_groups** (List of String)
+- **member_users** (List of String)
+- **owner_groups** (List of String)
+- **owner_users** (List of String)
+- **pipeline_operator_groups** (List of String)
+- **pipeline_operator_users** (List of String)
+- **viewer_groups** (List of String)
+- **viewer_users** (List of String)
+
+

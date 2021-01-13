@@ -9,6 +9,8 @@ import (
 	tfmux "github.com/hashicorp/terraform-plugin-mux"
 )
 
+//go:generate go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs
+
 // ProviderPATH describes path of this provider in registry
 const ProviderPATH = "registry.terraform.io/cappyzawa/concourse"
 

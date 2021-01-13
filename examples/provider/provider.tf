@@ -7,18 +7,12 @@ variable "concourse_username" {
 }
 
 variable "concourse_password" {
-  type = string
+  type      = string
+  sensitive = true
 }
 
 provider "concourse" {
   url      = var.concourse_url
   username = var.concourse_username
   password = var.concourse_password
-}
-
-resource "concourse_team" "provider-test" {
-  name = "provider-test"
-  owner_groups = [
-    "oidc:12222222222222"
-  ]
 }

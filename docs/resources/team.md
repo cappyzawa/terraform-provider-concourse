@@ -1,39 +1,32 @@
-# concourse_team
+---
+page_title: "concourse_team Resource - terraform-provider-concourse"
+subcategory: ""
+description: |-
+  
+---
 
-This resource can operates concourse teams.
+# Resource `concourse_team`
 
-## Example Usage
 
-```hcl
-resource "concourse_team" "main" {
-  name = "main"
-  owner_groups = [
-    "oidc:123456789"
-  ]
-}
-```
 
-## Argument References
 
-* `name` - (Required) The name of the team.
-* `owner_groups` - (Optional) The owner group list.
-* `owner_users` - (Optional) The owner user list.
-* `member_groups` - (Optional) The member group list.
-* `member_users` - (Optional) The member user list.
-* `viewer_groups` - (Optional) The viewer group list.
-* `viewer_users` - (Optional) The viewer user list.
-* `pipeline_operator_groups` - (Optional) The pipeline operator group list.
-* `pipeline_operator_users` - (Optional) The pipeline operator user list.
 
-## Attributes References
+## Schema
 
-* `id` - The ID of the team
-* `name` - The name of the team.
-* `owner_groups` - The owner group list.
-* `owner_users` - The owner user list.
-* `member_groups` - The member group list.
-* `member_users` - The member user list.
-* `viewer_groups` - The viewer group list.
-* `viewer_users` - The viewer user list.
-* `pipeline_operator_groups` - The pipeline operator group list.
-* `pipeline_operator_users` - The pipeline operator user list.
+### Required
+
+- **name** (String)
+
+### Optional
+
+- **id** (String) The ID of this resource.
+- **member_groups** (List of String)
+- **member_users** (List of String)
+- **owner_groups** (List of String)
+- **owner_users** (List of String)
+- **pipeline_operator_groups** (List of String)
+- **pipeline_operator_users** (List of String)
+- **viewer_groups** (List of String)
+- **viewer_users** (List of String)
+
+

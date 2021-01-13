@@ -1,28 +1,41 @@
-# Concourse Provider
+---
+page_title: "concourse Provider"
+subcategory: ""
+description: |-
+  
+---
 
-This provider enables to operate concourse.
+# concourse Provider
+
+
 
 ## Example Usage
 
-```hcl
-provider "concourse" {
-  url      = "https://example.concourse.com"
-  username = "foo"
-  password = "bar"
+```terraform
+variable "concourse_url" {
+  type = string
 }
 
-resource "concourse_team" "main" {
-  name = "main"
-  owner_groups = [
-    "oidc:123456789"
-  ]
+variable "concourse_username" {
+  type = string
+}
+
+variable "concourse_password" {
+  type      = string
+  sensitive = true
+}
+
+provider "concourse" {
+  url      = var.concourse_url
+  username = var.concourse_username
+  password = var.concourse_password
 }
 ```
 
-## Argument References
+## Schema
 
-The following arguments are supported:
+### Required
 
-* `url` - (Required) The url of your concourse.
-* `username` - (Required) The username of a local user.
-* `password` - (Required) The password of a local user.
+- **password** (String, Sensitive)
+- **url** (String)
+- **username** (String)
