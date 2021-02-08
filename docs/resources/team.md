@@ -31,4 +31,10 @@ description: |-
 - **viewer_groups** (List of String)
 - **viewer_users** (List of String)
 
+## Import
 
+Import is supported using the following syntax:
+
+```shell
+terraform import concourse_team.example <team name>
+```

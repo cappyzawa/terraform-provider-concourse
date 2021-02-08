@@ -2,6 +2,7 @@ package concourse
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 
 	"github.com/concourse/concourse/atc"
@@ -16,6 +17,16 @@ func resourceTeam() *schema.Resource {
 		ReadContext:   resourceTeamRead,
 		UpdateContext: resourceTeamUpdate,
 		DeleteContext: resourceTeamDelete,
+		Importer: &schema.ResourceImporter{
+			StateContext: func(ctx context.Context, d *schema.ResourceData, meta interface{}) ([]*schema.ResourceData, error) {
+				d.Set("name", d.Id())
+				diags := dataSourceTeamRead(ctx, d, meta)
+				if diags.HasError() {
+					return nil, fmt.Errorf(diags[0].Summary)
+				}
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 		Schema: map[string]*schema.Schema{
 			"name": {
 				Type:     schema.TypeString,
